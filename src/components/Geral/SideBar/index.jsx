@@ -35,37 +35,37 @@ const MenuItem = ({ to, icon, label, collapsed }) => (
 const menuItems = [
   {
     to: "/",
-    icon: "./src/assets/icons/layout-dashboard-roxo.svg",
+    icon: "/icons/layout-dashboard-roxo.svg",
     label: "Dashboard",
   },
   {
     to: "/estoque",
-    icon: "./src/assets/icons/package-roxo.svg",
+    icon: "/icons/package-roxo.svg",
     label: "Estoque",
   },
   {
     to: "/movimentacoes",
-    icon: "./src/assets/icons/arrow-right-left-roxo.svg",
+    icon: "/icons/arrow-right-left-roxo.svg",
     label: "Movimentações",
   },
   {
     to: "/fornecedores",
-    icon: "./src/assets/icons/truck-roxo.svg",
+    icon: "/icons/truck-roxo.svg",
     label: "Fornecedores",
   },
   {
     to: "/relatorios",
-    icon: "./src/assets/icons/bar-chart-2-roxo.svg",
+    icon: "/icons/bar-chart-2-roxo.svg",
     label: "Relatórios",
   },
   {
     to: "/agenda",
-    icon: "./src/assets/icons/calendar-roxo.svg",
+    icon: "/icons/calendar-roxo.svg",
     label: "Agenda",
   },
   {
     to: "/configuracoes",
-    icon: "./src/assets/icons/settings-roxo.svg",
+    icon: "/icons/settings-roxo.svg",
     label: "Configurações",
   },
 ];
@@ -83,12 +83,12 @@ export default function SideBar() {
         {collapsed ? (
           <>
             <img
-              src="./src/assets/images/logo-f-roxo.png"
+              src="/images/logo-f-roxo.png"
               alt="Forzara"
               className="h-8 block dark:hidden"
             />
             <img
-              src="./src/assets/images/logo-f-branco.png"
+              src="/images/logo-f-branco.png"
               alt="Forzara"
               className="h-8 hidden dark:block"
             />
@@ -96,12 +96,12 @@ export default function SideBar() {
         ) : (
           <>
             <img
-              src="./src/assets/images/logo-roxo.png"
+              src="/images/logo-roxo.png"
               alt="Forzara"
               className="h-8 block dark:hidden"
             />
             <img
-              src="./src/assets/images/logo-branco.png"
+              src="/images/logo-branco.png"
               alt="Forzara"
               className="h-8 hidden dark:block"
             />
@@ -127,7 +127,7 @@ export default function SideBar() {
           className="w-full flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#1a1534] text-gray-400 transition-colors cursor-pointer"
         >
           <img
-            src="./src/assets/icons/arrow-left-cinza.svg"
+            src="/icons/arrow-left-cinza.svg"
             alt="Toggle"
             className={`w-5 h-5 transition-transform duration-300 ${
               collapsed ? "rotate-180" : ""

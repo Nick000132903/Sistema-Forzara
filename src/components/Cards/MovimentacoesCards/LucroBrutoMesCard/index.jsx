@@ -11,7 +11,7 @@ export default function LucroBrutoMesCard({ valor, loading }) {
       rota="/relatorios"
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/trending-up-azul.svg"
+      icone="/icons/trending-up-azul.svg"
     />
   );
 }

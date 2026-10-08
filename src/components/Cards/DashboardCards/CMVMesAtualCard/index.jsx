@@ -11,7 +11,7 @@ export default function CMVMesAtualCard({ valor, loading }) {
       rota="/relatorios"
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/package-laranja.svg"
+      icone="/icons/package-laranja.svg"
     />
   );
 }

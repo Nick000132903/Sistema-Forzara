@@ -1,5 +1,5 @@
 import { HeaderBar, Layout, SideBar } from "../../components";
-import ProfileIcon from "../../assets/icons/profile-roxo.svg";
+import ProfileIcon from "/icons/profile-roxo.svg";
 
 const agendamentos = [
   { hora: "08:00", nome: "Ana Julia", tipo: "Reposição", status: "Confirmado" },

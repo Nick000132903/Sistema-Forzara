@@ -11,7 +11,7 @@ export default function FaturamentoMesAtualCard({ valor, loading }) {
       rota="/relatorios"
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/dollar-verde.svg"
+      icone="/icons/dollar-verde.svg"
     />
   );
 }

@@ -8,7 +8,7 @@ export default function PerdasMesCard({ valor, variacao }) {
       variacao={variacao}
       cor="border-red-500"
       corBg="bg-red-50"
-      icone="./src/assets/icons/alert-triangle-vermelho.svg"
+      icone="/icons/alert-triangle-vermelho.svg"
     />
   );
 }

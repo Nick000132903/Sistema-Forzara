@@ -12,7 +12,7 @@ export default function ItemsFaltandoCard({ quantidade, loading }) {
       estado={{ filtroStatus: "falta" }}
       loading={loading}
       unidade=""
-      icone="./src/assets/icons/minus-circle-cinza.svg"
+      icone="/icons/minus-circle-cinza.svg"
     />
   );
 }

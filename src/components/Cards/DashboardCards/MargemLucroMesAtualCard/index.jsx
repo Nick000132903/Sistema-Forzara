@@ -11,7 +11,7 @@ export default function MargemLucroMesAtualCard({ valor, loading }) {
       rota="/relatorios"
       loading={loading}
       unidade="percentage"
-      icone="./src/assets/icons/percent-roxo.svg"
+      icone="/icons/percent-roxo.svg"
     />
   );
 }

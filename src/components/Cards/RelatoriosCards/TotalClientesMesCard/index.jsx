@@ -8,7 +8,7 @@ export default function TotalClientesMesCard({ valor, variacao }) {
       variacao={variacao}
       cor="bg-indigo-500"
       corBg="bg-indigo-50"
-      icone="./src/assets/icons/users-indigo.svg"
+      icone="/icons/users-indigo.svg"
     />
   );
 }

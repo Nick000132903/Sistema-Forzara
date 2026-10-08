@@ -11,7 +11,7 @@ export default function ValorTotalEstoqueCard({ valor, loading }) {
       rota="/estoque"
       loading={loading}
       unidade="currency"
-      icone={"./src/assets/icons/dollar-msg-roxo.svg"}
+      icone={"/icons/dollar-msg-roxo.svg"}
     />
   );
 }

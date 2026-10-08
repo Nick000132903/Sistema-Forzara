@@ -12,7 +12,7 @@ export default function ItemsCriticosCard({ quantidade, loading }) {
       estado={{ filtroStatus: "critico" }}
       loading={loading}
       unidade=""
-      icone="./src/assets/icons/alert-circle-vermelho.svg"
+      icone="/icons/alert-circle-vermelho.svg"
     />
   );
 }

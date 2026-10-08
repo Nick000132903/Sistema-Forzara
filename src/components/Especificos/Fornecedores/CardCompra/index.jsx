@@ -61,7 +61,7 @@ export default function CardCompra({
             {vlTotal ? vlTotalF : "..."}
           </p>
           <img
-            src="./src/assets/icons/arrow-down-cinza.svg"
+            src="/icons/arrow-down-cinza.svg"
             alt="Ver"
             className="w-5 -rotate-90"
           />

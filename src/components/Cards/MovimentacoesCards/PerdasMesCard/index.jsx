@@ -12,7 +12,7 @@ export default function PerdasMesCard({ valor, quantidade, loading }) {
       estado={{ filtroTipo: "perda" }}
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/alert-triangle-vermelho.svg"
+      icone="/icons/alert-triangle-vermelho.svg"
     />
   );
 }

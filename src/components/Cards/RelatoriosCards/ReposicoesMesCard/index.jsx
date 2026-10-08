@@ -8,7 +8,7 @@ export default function ReposicoesMesCard({ valor, variacao }) {
       variacao={variacao}
       cor="border-blue-500"
       corBg="bg-blue-50"
-      icone="./src/assets/icons/refresh-cw-azul.svg"
+      icone="/icons/refresh-cw-azul.svg"
     />
   );
 }

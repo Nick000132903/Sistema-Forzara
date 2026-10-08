@@ -8,7 +8,7 @@ export default function TaxaSaidasMesCard({ valor, variacao }) {
       variacao={variacao}
       cor="border-purple-500"
       corBg="bg-purple-50"
-      icone="./src/assets/icons/arrow-right-left-roxo.svg"
+      icone="/icons/arrow-right-left-roxo.svg"
     />
   );
 }

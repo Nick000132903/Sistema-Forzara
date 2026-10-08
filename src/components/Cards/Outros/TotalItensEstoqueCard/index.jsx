@@ -11,7 +11,7 @@ export default function TotalItensEstoqueCard({ quantidade, loading }) {
       rota="/estoque"
       loading={loading}
       unidade=""
-      icone={"./src/assets/icons/bars-roxo.svg"}
+      icone={"/icons/bars-roxo.svg"}
     />
   );
 }

@@ -12,7 +12,7 @@ export default function SaidasMesCard({ valor, quantidade, loading }) {
       estado={{ filtroTipo: "saida" }}
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/arrow-up-circle-laranja.svg"
+      icone="/icons/arrow-up-circle-laranja.svg"
     />
   );
 }

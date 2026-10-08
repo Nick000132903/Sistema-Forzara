@@ -12,7 +12,7 @@ export default function ItemsVencendoCard({ quantidade, loading }) {
       estado={{ filtroValidade: "proximo" }}
       loading={loading}
       unidade=""
-      icone="./src/assets/icons/calendar-clock-laranja.svg"
+      icone="/icons/calendar-clock-laranja.svg"
     />
   );
 }

@@ -8,7 +8,7 @@ export default function EntradasMesCard({ valor, variacao }) {
       variacao={variacao}
       cor="bg-teal-500"
       corBg="bg-teal-50"
-      icone="./src/assets/icons/log-in-teal.svg"
+      icone="/icons/log-in-teal.svg"
     />
   );
 }

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import EmailIcon from "../../assets/icons/mail-roxo.svg";
-import PasswordIcon from "../../assets/icons/lock-roxo.svg";
+import EmailIcon from "/icons/mail-roxo.svg";
+import PasswordIcon from "/icons/lock-roxo.svg";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login() {
@@ -39,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <main className="bg-[url(./src/assets/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center pl-30">
+    <main className="bg-[url(/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center pl-30">
       <section className="p-8 sm:p-10 flex flex-col items-start w-full">
         {erro && (
           <div className="w-full max-w-xs mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">

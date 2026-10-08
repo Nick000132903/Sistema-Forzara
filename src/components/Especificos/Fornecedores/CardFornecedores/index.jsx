@@ -4,7 +4,7 @@ export default function CardFornecedores({ name, category, prazo }) {
       <div className="flex gap-4 items-center">
         <div className="flex rounded-full bg-purple-400/20 w-11 h-11 items-center justify-center shrink-0">
           <img
-            src="./src/assets/icons/user-branco.svg"
+            src="/icons/user-branco.svg"
             alt="Fornecedor"
             className="w-5 h-5"
           />
@@ -18,7 +18,7 @@ export default function CardFornecedores({ name, category, prazo }) {
       </div>
       <div>
         <img
-          src="./src/assets/icons/arrow-down-cinza.svg"
+          src="/icons/arrow-down-cinza.svg"
           alt="Ver"
           className="w-4 -rotate-90 opacity-50"
         />

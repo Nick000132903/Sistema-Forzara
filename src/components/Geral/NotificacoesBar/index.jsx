@@ -3,11 +3,11 @@ import { useNotificacoes } from "../../../hooks";
 import { formatDate } from "../../../utils";
 
 const iconMap = {
-  estoque_baixo: "./src/assets/icons/alert-triangle-amarelo.svg",
-  validade_proxima: "./src/assets/icons/clock-laranja.svg",
-  reposicao_aprovacao: "./src/assets/icons/refresh-cw-verde.svg",
-  perda_excedida: "./src/assets/icons/x-circle-vermelho.svg",
-  sistema: "./src/assets/icons/bell-cinza.svg",
+  estoque_baixo: "/icons/alert-triangle-amarelo.svg",
+  validade_proxima: "/icons/clock-laranja.svg",
+  reposicao_aprovacao: "/icons/refresh-cw-verde.svg",
+  perda_excedida: "/icons/x-circle-vermelho.svg",
+  sistema: "/icons/bell-cinza.svg",
 };
 
 export default function NotificacoesBar({ onClose }) {
@@ -51,7 +51,7 @@ export default function NotificacoesBar({ onClose }) {
               <img
                 src={
                   iconMap[n.tipo_notificacao] ||
-                  "./src/assets/icons/bell-cinza.svg"
+                  "/icons/bell-cinza.svg"
                 }
                 alt={n.tipo_notificacao}
                 className="w-8 h-8 shrink-0"

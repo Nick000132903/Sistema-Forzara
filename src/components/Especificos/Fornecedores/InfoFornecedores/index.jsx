@@ -40,7 +40,7 @@ export default function InfoFornecedores({
         <div className="flex gap-5 items-start">
           <div className="bg-purple-400/20 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full shrink-0">
             <img
-              src="./src/assets/icons/user-branco.svg"
+              src="/icons/user-branco.svg"
               alt="Fornecedor"
               className="w-8 sm:w-10"
             />
@@ -110,7 +110,7 @@ export default function InfoFornecedores({
         <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
           <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
             <img
-              src="./src/assets/icons/shopping-cart-roxo.svg"
+              src="/icons/shopping-cart-roxo.svg"
               alt="Último Pedido"
               className="w-5 h-5"
             />
@@ -129,7 +129,7 @@ export default function InfoFornecedores({
         <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
           <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
             <img
-              src="./src/assets/icons/star-roxo.svg"
+              src="/icons/star-roxo.svg"
               alt="Avaliação"
               className="w-5 h-5"
             />
@@ -148,7 +148,7 @@ export default function InfoFornecedores({
         <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
           <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
             <img
-              src="./src/assets/icons/delivery-roxo.svg"
+              src="/icons/delivery-roxo.svg"
               alt="Prazo"
               className="w-5 h-5"
             />
@@ -167,7 +167,7 @@ export default function InfoFornecedores({
         <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
           <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
             <img
-              src="./src/assets/icons/dollar-rounded-roxo.svg"
+              src="/icons/dollar-rounded-roxo.svg"
               alt="Total"
               className="w-5 h-5"
             />

@@ -38,7 +38,7 @@ export default function TabelaIngredientes({
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div className="flex items-center gap-2">
           <img
-            src="./src/assets/icons/package-black.svg"
+            src="/icons/package-black.svg"
             alt="Ícone de estoque"
             className="w-5 h-5 sm:w-5 sm:h-5 dark:invert"
           />

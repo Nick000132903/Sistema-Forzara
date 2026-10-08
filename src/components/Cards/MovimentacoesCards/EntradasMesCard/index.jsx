@@ -12,7 +12,7 @@ export default function EntradasMesCard({ valor, quantidade, loading }) {
       estado={{ filtroTipo: "entrada" }}
       loading={loading}
       unidade="currency"
-      icone="./src/assets/icons/arrow-down-circle-verde.svg"
+      icone="/icons/arrow-down-circle-verde.svg"
     />
   );
 }

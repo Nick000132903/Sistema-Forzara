@@ -9,7 +9,7 @@ export default function FaturamentoMesCard({ valor, variacao }) {
       cor="border-emerald-500"
       corBg="bg-emerald-50"
       unidade="currency"
-      icone="./src/assets/icons/dollar-verde.svg"
+      icone="/icons/dollar-verde.svg"
     />
   );
 }
