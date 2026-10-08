@@ -155,7 +155,7 @@ export default function Estoque() {
               className="w-full border border-gray-200 dark:border-slate-700 dark:bg-[#0B071E] dark:text-white rounded-xl py-2.5 pl-9 pr-3 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm text-sm"
             />
             <img
-              src="./src/assets/icons/search-cinza.svg"
+              src="/icons/search-cinza.svg"
               alt="Buscar"
               className="absolute left-3 top-3 w-4 h-4"
             />
@@ -208,7 +208,7 @@ export default function Estoque() {
 
           <button className="flex items-center gap-2 bg-[#8B5CF6] hover:bg-[#7C3AED] transition-colors text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm cursor-pointer">
             <img
-              src="./src/assets/icons/plus-circle-branco.svg"
+              src="/icons/plus-circle-branco.svg"
               alt="Novo"
               className="w-5 h-5"
             />
