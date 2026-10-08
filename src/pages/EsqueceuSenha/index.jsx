@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import EmailIcon from "../../assets/icons/mail-roxo.svg";
+import EmailIcon from "/icons/mail-roxo.svg";
 import { authService } from "../../services/authService";
 
 export default function EsqueceuSenha() {
@@ -26,7 +26,7 @@ export default function EsqueceuSenha() {
 
   if (success) {
     return (
-      <main className="bg-[url(./src/assets/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
+      <main className="bg-[url(/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-[#a703e7]/40 rounded-2xl p-8 text-center">
           <div className="w-16 h-16 bg-[#a703e7]/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <img src={EmailIcon} alt="E-mail" className="w-8 h-8" />
@@ -50,7 +50,7 @@ export default function EsqueceuSenha() {
   }
 
   return (
-    <main className="bg-[url(./src/assets/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
+    <main className="bg-[url(/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-[#a703e7]/40 rounded-2xl p-8">
         <h2 className="text-3xl font-bold text-center mb-2 text-white">
           Redefinir <span className="text-[#a703e7]">Senha</span>

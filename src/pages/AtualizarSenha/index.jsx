@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import PasswordIcon from "../../assets/icons/lock-roxo.svg";
-import CheckIcon from "../../assets/icons/check-circle-verde.svg";
+import PasswordIcon from "/icons/lock-roxo.svg";
+import CheckIcon from "/icons/check-circle-verde.svg";
 import { supabase } from "../../lib/supabaseClient";
 
 export default function AtualizarSenha() {
@@ -42,7 +42,7 @@ export default function AtualizarSenha() {
 
   if (success) {
     return (
-      <main className="bg-[url(./src/assets/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
+      <main className="bg-[url(/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-[#a703e7]/40 rounded-2xl p-8 text-center">
           <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <img src={CheckIcon} alt="Sucesso" className="w-8 h-8" />
@@ -59,7 +59,7 @@ export default function AtualizarSenha() {
   }
 
   return (
-    <main className="bg-[url(./src/assets/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
+    <main className="bg-[url(/images/bg-login-preto.png)] bg-cover w-screen h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-[#a703e7]/40 rounded-2xl p-8">
         <h2 className="text-3xl font-bold text-center mb-2 text-white">
           Definir <span className="text-[#a703e7]">Nova Senha</span>
