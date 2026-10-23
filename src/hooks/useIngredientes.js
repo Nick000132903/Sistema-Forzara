@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { ingredienteService } from "../services";
 
 export function useIngredientes(filters = {}) {
@@ -7,20 +6,33 @@ export function useIngredientes(filters = {}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const searchKey = filters?.search ?? "";
+  const statusKey = filters?.status ?? "";
+
   useEffect(() => {
+    let cancelled = false;
+
     const carregar = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const result = await ingredienteService.getAll(filters);
-        setData(result || []);
+        const result = await ingredienteService.getAll({
+          search: searchKey,
+          status: statusKey,
+        });
+        if (!cancelled) setData(result || []);
       } catch (err) {
-        setError(err);
+        if (!cancelled) setError(err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     carregar();
-  }, [filters]);
+    return () => {
+      cancelled = true;
+    };
+  }, [searchKey, statusKey]);
 
   return { data, loading, error };
 }

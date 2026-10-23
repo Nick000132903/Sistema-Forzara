@@ -1,3 +1,6 @@
+export * from "./validators";
+export * from "./exporters";
+
 export const formatCurrency = (value) => {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -13,7 +16,18 @@ export const formatQuantity = (value, unidade = "") => {
 
 export const formatDate = (date) => {
   if (!date) return "-";
-  return new Date(date).toLocaleDateString("pt-BR");
+  try {
+    let parsed;
+    if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      parsed = new Date(`${date}T12:00:00`);
+    } else {
+      parsed = new Date(date);
+    }
+    if (isNaN(parsed.getTime())) return "-";
+    return parsed.toLocaleDateString("pt-BR");
+  } catch {
+    return "-";
+  }
 };
 
 export const formatPercent = (value) => {
@@ -68,7 +82,7 @@ export const sortData = (data, field, direction = "asc") => {
 export const filterBySearch = (data, searchTerm, field = "nm_ingrediente") => {
   if (!searchTerm) return data;
   return data.filter((item) =>
-    (item[field] || "").toLowerCase().includes(searchTerm.toLowerCase())
+    (item[field] || "").toLowerCase().includes(searchTerm.toLowerCase()),
   );
 };
 

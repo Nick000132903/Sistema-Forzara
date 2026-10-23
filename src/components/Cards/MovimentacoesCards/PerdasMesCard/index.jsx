@@ -1,13 +1,13 @@
 import BaseCard from "../../BaseCard";
 
-export default function PerdasMesCard({ valor, quantidade, loading }) {
+export default function PerdasMesCard({ valor, loading }) {
   return (
     <BaseCard
       titulo="Perdas (Mês)"
       valor={valor}
-      descricao={`${quantidade || 0} unidades`}
-      cor="border-red-500"
-      corBg="bg-red-50"
+      descricao="Valor no mês atual"
+      cor="border-orange-500"
+      corBg="bg-orange-50"
       rota="/movimentacoes"
       estado={{ filtroTipo: "perda" }}
       loading={loading}

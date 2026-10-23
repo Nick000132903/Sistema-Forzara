@@ -6,3 +6,8 @@ export * from "./notificacaoService";
 export * from "./produtoService";
 export * from "./viewServices";
 export * from "./authService";
+export * from "./aprovacaoService";
+export * from "./cmvService";
+export * from "./agendaService";
+export * from "./configuracaoService";
+export * from "./usuarioService";

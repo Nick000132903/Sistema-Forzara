@@ -1,71 +1,151 @@
+import { useEffect, useRef, useState } from "react";
+
 export default function FiltroRelatorio({
-  dataSelecionada,
-  setDataSelecionada,
+  periodo,
+  setPeriodo,
+  periodos,
   filtroCategoria,
   setFiltroCategoria,
   filtroOrdenacao,
   setFiltroOrdenacao,
   categorias,
+  onExportPDF,
+  onExportCSV,
 }) {
+  const [menuAberto, setMenuAberto] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuAberto(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   const selectClass =
-    "bg-white border border-gray-200 text-gray-700 text-sm rounded-lg py-2 px-3 h-10 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer transition-shadow hover:border-gray-300 shadow-sm";
+    "bg-white dark:bg-[#0B071E] border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 text-sm rounded-lg py-2 px-3 h-10 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] cursor-pointer shadow-sm";
 
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 mt-6 mb-6">
-      <div className="flex flex-wrap items-center gap-3">
-        <select
-          value={dataSelecionada}
-          onChange={(e) => setDataSelecionada(e.target.value)}
-          className={selectClass}
-        >
-          <option value="mar2026">Março 2026</option>
-          <option value="fev2026">Fevereiro 2026</option>
-          <option value="jan2026">Janeiro 2026</option>
-          <option value="dez2025">Dezembro 2025</option>
-        </select>
-
-        <select
-          value={filtroCategoria}
-          onChange={(e) => setFiltroCategoria(e.target.value)}
-          className={selectClass}
-        >
-          <option value="todas">Todas categorias</option>
-          {categorias.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
+    <div className="sticky top-16 z-10 -mx-3 sm:-mx-4 md:-mx-6 px-3 sm:px-4 md:px-6 py-3 mb-4 bg-white/95 dark:bg-surface-dark/95 backdrop-blur border-b border-gray-200 dark:border-slate-800 no-print">
+      <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3">
+        {/* Período — chips */}
+        <div className="flex flex-wrap items-center gap-2">
+          {periodos.map((p) => (
+            <button
+              key={p.value}
+              onClick={() => setPeriodo(p.value)}
+              className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                periodo === p.value
+                  ? "bg-primary text-white shadow-sm"
+                  : "bg-gray-100 dark:bg-surface-dark-hover text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#241b42]"
+              }`}
+            >
+              {p.label}
+            </button>
           ))}
-        </select>
+        </div>
 
-        <select
-          value={filtroOrdenacao}
-          onChange={(e) => setFiltroOrdenacao(e.target.value)}
-          className={selectClass}
-        >
-          <option value="total_quantidade">Mais Saídas</option>
-          <option value="total_valor">Maior Faturamento</option>
-          <option value="nm_produto">Nome (A-Z)</option>
-        </select>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={filtroCategoria}
+            onChange={(e) => setFiltroCategoria(e.target.value)}
+            className={selectClass}
+          >
+            <option value="todas">Todas as categorias</option>
+            {categorias.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={filtroOrdenacao}
+            onChange={(e) => setFiltroOrdenacao(e.target.value)}
+            className={selectClass}
+          >
+            <option value="total_quantidade">Mais vendidos</option>
+            <option value="total_valor">Maior faturamento</option>
+            <option value="nm_produto">Nome (A-Z)</option>
+          </select>
+
+          <button
+            onClick={onExportPDF}
+            className="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 transition-colors text-white flex items-center justify-center gap-2 shadow-sm hover:shadow-md px-4 h-10 rounded-lg text-sm font-medium"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3" />
+            </svg>
+            PDF
+          </button>
+
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setMenuAberto((v) => !v)}
+              className="bg-white dark:bg-surface-dark border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2 shadow-sm px-4 h-10 rounded-lg text-sm font-medium transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <path d="M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              CSV
+            </button>
+            {menuAberto && (
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-surface-dark border border-gray-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden z-30">
+                <button
+                  onClick={() => {
+                    onExportCSV("resumo");
+                    setMenuAberto(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
+                >
+                  Resumo (KPIs)
+                </button>
+                <button
+                  onClick={() => {
+                    onExportCSV("mensal");
+                    setMenuAberto(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
+                >
+                  Série mensal
+                </button>
+                <button
+                  onClick={() => {
+                    onExportCSV("produtos");
+                    setMenuAberto(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
+                >
+                  Top produtos
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-
-      <button className="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 transition-colors text-white flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md px-4 h-10 rounded-lg text-sm font-medium shrink-0">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7"
-            stroke="#FFF"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Exportar PDF
-      </button>
     </div>
   );
 }

@@ -1,5 +1,3 @@
-import { formatCurrency } from "../../../../utils";
-
 export default function CardCompra({
   diaCompra,
   mesCompra,
@@ -12,60 +10,50 @@ export default function CardCompra({
   dtEntrega,
   hrEntrega,
 }) {
-  const vlTotalF = formatCurrency(vlTotal);
+  const vlTotalF = Number(vlTotal || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 
   return (
-    <div className="p-5 rounded-xl bg-white border border-gray-100 flex flex-col lg:flex-row justify-between gap-4 hover:border-purple-200 transition-colors">
-      <div className="flex gap-4">
-        <div className="flex flex-col border-r border-gray-200 font-semibold text-center pr-5 shrink-0">
-          <p className="text-2xl text-gray-800">
-            {diaCompra ? diaCompra : "-"}
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-white dark:bg-surface-dark rounded-xl border border-gray-100 dark:border-slate-800">
+      <div className="flex gap-4 items-center min-w-0">
+        <div className="bg-purple-400/20 w-14 h-14 flex flex-col items-center justify-center rounded-lg shrink-0">
+          <p className="text-lg font-bold text-purple-700 dark:text-purple-300 leading-none">
+            {diaCompra}
           </p>
-          <p className="text-xs text-gray-500 uppercase">
-            {mesCompra ? mesCompra : "-"}
+          <p className="text-[10px] font-semibold text-purple-700 dark:text-purple-300">
+            {mesCompra} {anoCompra}
           </p>
-          <p className="text-xs text-gray-500">{anoCompra ? anoCompra : "-"}</p>
         </div>
-
-        <div className="flex flex-col gap-1.5">
-          <div className="flex flex-wrap gap-2">
-            <p className="text-xs font-semibold bg-green-500/15 text-green-700 py-1 px-2.5 rounded-md">
-              Pedido {numPedido ? `#${numPedido}` : "Indefinido"}
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 truncate">
+              Pedido #{numPedido}
             </p>
-            <p
-              className={`text-xs font-semibold py-1 px-2.5 rounded-md ${
+            <span
+              className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
                 status
-                  ? "bg-blue-500/15 text-blue-700"
-                  : "bg-red-500/15 text-red-700"
+                  ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
+                  : "bg-red-500/15 text-red-700 dark:text-red-400"
               }`}
             >
-              {status ? "Entregue" : "Não Entregue"}
-            </p>
+              {status ? "Entregue" : "Pendente"}
+            </span>
           </div>
-          <p className="font-semibold text-gray-800 text-sm">{desc || "..."}</p>
-          <p className="text-gray-600 text-xs">
-            Itens: {qtdItens || "..."} · Total: {vlTotal ? vlTotalF : "..."}
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
+            {desc}
+          </p>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-1">
+            {qtdItens} {qtdItens === 1 ? "item" : "itens"} · Entrega:{" "}
+            {dtEntrega} {hrEntrega}
           </p>
         </div>
       </div>
-
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between lg:justify-end gap-4 lg:gap-10">
-        <div className="text-gray-700 text-xs leading-relaxed text-left sm:text-right">
-          <p className="text-gray-400">Entregue em:</p>
-          <p className="font-medium">
-            {dtEntrega || "..."} · {hrEntrega || "..."}
-          </p>
-        </div>
-        <div className="flex items-center justify-between sm:justify-end gap-4">
-          <p className="text-base text-emerald-500 font-semibold">
-            {vlTotal ? vlTotalF : "..."}
-          </p>
-          <img
-            src="/icons/arrow-down-cinza.svg"
-            alt="Ver"
-            className="w-5 -rotate-90"
-          />
-        </div>
+      <div className="text-right shrink-0">
+        <p className="text-sm font-bold text-gray-800 dark:text-gray-100">
+          {vlTotalF}
+        </p>
       </div>
     </div>
   );

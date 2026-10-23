@@ -1,11 +1,11 @@
 import BaseCard from "../../BaseCard";
 
-export default function EntradasMesCard({ valor, quantidade, loading }) {
+export default function EntradasMesCard({ valor, loading }) {
   return (
     <BaseCard
       titulo="Entradas (Mês)"
       valor={valor}
-      descricao={`${quantidade || 0} unidades`}
+      descricao="Valor no mês atual"
       cor="border-emerald-500"
       corBg="bg-emerald-50"
       rota="/movimentacoes"

@@ -1,9 +1,11 @@
 import { formatCurrency } from "../../../../utils";
+import { formatCNPJ } from "../../../../utils/validators";
 
 export default function InfoFornecedores({
+  foto,
   name,
   cnpj,
-  category,
+  condicaoPagamento,
   telefone,
   email,
   status,
@@ -12,72 +14,89 @@ export default function InfoFornecedores({
   dtParceria,
   dtUltimoPedido,
   vlUltimoPedido,
-  nota,
   prazo,
   vlTotalCompras,
+  onEdit,
 }) {
-  const vlUltimoPedidoF = formatCurrency(vlUltimoPedido);
-  const vlTotalComprasF = formatCurrency(vlTotalCompras);
-
   const getLabelPrazo = (p) => {
-    if (p >= 0 && p <= 24) return "Entrega Rápida";
+    if (p > 0 && p <= 24) return "Entrega Rápida";
     if (p <= 48) return "Entrega Mediana";
     if (p <= 72) return "Entrega Demorada";
     return "Sem Dados";
   };
 
-  const getLabelNota = (n) => {
-    if (n >= 0 && n <= 2) return "Péssimo Fornecedor";
-    if (n <= 3) return "Fornecedor Mediano";
-    if (n <= 4) return "Bom Fornecedor";
-    if (n <= 5) return "Ótimo Fornecedor";
-    return "Não Avaliado";
-  };
+  const semHistorico = qtdPedidos === 0 && qtdEntregas === 0;
 
   return (
     <>
-      <div className="bg-white border-b border-gray-100 flex flex-col lg:flex-row gap-6 p-6 items-start lg:items-center justify-between">
-        <div className="flex gap-5 items-start">
-          <div className="bg-purple-400/20 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full shrink-0">
-            <img
-              src="/icons/user-branco.svg"
-              alt="Fornecedor"
-              className="w-8 sm:w-10"
-            />
+      <div className="bg-white dark:bg-surface-dark-elevated border-b border-gray-100 dark:border-slate-800 flex flex-col lg:flex-row gap-6 p-6 items-start lg:items-center justify-between">
+        <div className="flex gap-5 items-start min-w-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-purple-400/20 flex items-center justify-center overflow-hidden shrink-0 border-2 border-purple-200 dark:border-purple-800">
+            {foto ? (
+              <img
+                src={foto}
+                alt={name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src="/icons/user-branco.svg"
+                alt=""
+                className="w-8 sm:w-10 opacity-60"
+              />
+            )}
           </div>
-          <div>
-            <p className="text-lg sm:text-xl font-bold text-gray-800">
-              {name || "..."}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mt-2 text-sm text-gray-600">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100">
+                {name || "—"}
+              </p>
+              {onEdit && (
+                <button
+                  onClick={onEdit}
+                  className="text-xs font-medium text-primary hover:underline flex items-center gap-1"
+                  title="Editar fornecedor"
+                >
+                  <img
+                    src="/icons/settings-roxo.svg"
+                    alt=""
+                    className="w-3.5 h-3.5"
+                  />
+                  Editar
+                </button>
+              )}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mt-2 text-sm text-gray-600 dark:text-gray-300">
               <p>
                 <span className="font-medium text-gray-400">CNPJ:</span>{" "}
-                {cnpj || "..."}
+                {cnpj && cnpj !== "—" ? formatCNPJ(cnpj) : "—"}
               </p>
               <p>
                 <span className="font-medium text-gray-400">Telefone:</span>{" "}
-                {telefone || "..."}
+                {telefone}
               </p>
               <p>
-                <span className="font-medium text-gray-400">Categoria:</span>{" "}
-                {category || "..."}
+                <span className="font-medium text-gray-400">
+                  Cond. Pagamento:
+                </span>{" "}
+                {condicaoPagamento}
               </p>
               <p>
-                <span className="font-medium text-gray-400">Email:</span>{" "}
-                {email || "..."}
+                <span className="font-medium text-gray-400">E-mail:</span>{" "}
+                {email}
               </p>
             </div>
             <div className="flex flex-wrap gap-2 mt-4 text-xs font-semibold">
               <div
                 className={`py-1 px-3 rounded-lg ${
                   status
-                    ? "bg-green-500/15 text-green-700"
-                    : "bg-red-500/15 text-red-700"
+                    ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
+                    : "bg-red-500/15 text-red-700 dark:text-red-400"
                 }`}
               >
                 {status ? "Fornecedor Ativo" : "Fornecedor Inativo"}
               </div>
-              <div className="bg-orange-500/15 text-orange-600 py-1 px-3 rounded-lg">
+              <div className="bg-orange-500/15 text-orange-600 dark:text-orange-400 py-1 px-3 rounded-lg">
                 {getLabelPrazo(prazo)}
               </div>
             </div>
@@ -86,103 +105,81 @@ export default function InfoFornecedores({
 
         <div className="flex gap-6 sm:gap-8 w-full lg:w-auto justify-between lg:justify-end">
           <div className="flex flex-col items-center">
-            <p className="text-lg sm:text-xl font-semibold text-gray-800">
-              {qtdPedidos || 0}
+            <p className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100">
+              {qtdPedidos}
             </p>
-            <p className="text-xs sm:text-sm text-gray-500">Pedidos</p>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              Pedidos
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-lg sm:text-xl font-semibold text-gray-800">
-              {qtdEntregas || 0}
+            <p className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100">
+              {qtdEntregas}
             </p>
-            <p className="text-xs sm:text-sm text-gray-500">Entregas</p>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              Entregas
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-sm sm:text-base font-semibold text-gray-800 whitespace-nowrap">
-              {dtParceria || "-"}
+            <p className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-100 whitespace-nowrap">
+              {dtParceria || "—"}
             </p>
-            <p className="text-xs sm:text-sm text-gray-500">Data de Início</p>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              Data de Início
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
-          <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
-            <img
-              src="/icons/shopping-cart-roxo.svg"
-              alt="Último Pedido"
-              className="w-5 h-5"
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 text-left">
-            <p className="text-xs text-gray-500">Último Pedido</p>
-            <p className="text-sm font-semibold text-gray-800">
-              {dtUltimoPedido || "Sem Dados"}
-            </p>
-            <p className="text-xs font-bold text-emerald-500">
-              {vlUltimoPedido ? vlUltimoPedidoF : "Sem Dados"}
-            </p>
-          </div>
+      {semHistorico && (
+        <div className="mx-4 sm:mx-6 mt-4 p-4 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20">
+          <p className="text-sm text-purple-800 dark:text-purple-300">
+            🌱 <strong>Fornecedor novo.</strong> Ainda não há compras
+            registradas. Quando você registrar uma entrada vinculada a este
+            fornecedor, os dados abaixo vão sendo preenchidos automaticamente.
+          </p>
         </div>
+      )}
 
-        <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
-          <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
-            <img
-              src="/icons/star-roxo.svg"
-              alt="Avaliação"
-              className="w-5 h-5"
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 text-left">
-            <p className="text-xs text-gray-500">Avaliação</p>
-            <p className="text-sm font-semibold text-gray-800">
-              {nota >= 0 ? `${nota} / 5.0` : "Não Avaliado"}
-            </p>
-            <p className="text-xs font-bold text-emerald-500">
-              {getLabelNota(nota)}
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
-          <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
-            <img
-              src="/icons/delivery-roxo.svg"
-              alt="Prazo"
-              className="w-5 h-5"
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 text-left">
-            <p className="text-xs text-gray-500">Prazo Médio</p>
-            <p className="text-sm font-semibold text-gray-800">
-              {prazo >= 0 ? `${prazo}h` : "Sem Dados"}
-            </p>
-            <p className="text-xs font-bold text-emerald-500">
-              {getLabelPrazo(prazo)}
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 rounded-xl flex items-center gap-3 border border-gray-100">
-          <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
-            <img
-              src="/icons/dollar-rounded-roxo.svg"
-              alt="Total"
-              className="w-5 h-5"
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 text-left">
-            <p className="text-xs text-gray-500">Valor Total Compras</p>
-            <p className="text-sm font-semibold text-gray-800">
-              {vlTotalCompras ? vlTotalComprasF : 0}
-            </p>
-            <p className="text-xs font-bold text-emerald-500">
-              Últimos 12 Meses
-            </p>
-          </div>
-        </div>
+      <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <MiniKPI
+          icon="shopping-cart-roxo"
+          titulo="Último Pedido"
+          valor={dtUltimoPedido || "—"}
+          sub={
+            vlUltimoPedido ? formatCurrency(vlUltimoPedido) : "Sem histórico"
+          }
+        />
+        <MiniKPI
+          icon="delivery-roxo"
+          titulo="Prazo Padrão"
+          valor={prazo > 0 ? `${prazo}h` : "—"}
+          sub={getLabelPrazo(prazo)}
+        />
+        <MiniKPI
+          icon="dollar-rounded-roxo"
+          titulo="Total Comprado"
+          valor={formatCurrency(vlTotalCompras || 0)}
+          sub="Histórico completo"
+        />
       </div>
     </>
+  );
+}
+
+function MiniKPI({ icon, titulo, valor, sub }) {
+  return (
+    <div className="bg-white dark:bg-surface-dark p-4 rounded-xl flex items-center gap-3 border border-gray-100 dark:border-slate-800">
+      <div className="bg-purple-400/20 w-12 h-12 flex items-center justify-center rounded-full shrink-0">
+        <img src={`/icons/${icon}.svg`} alt="" className="w-5 h-5" />
+      </div>
+      <div className="flex flex-col gap-0.5 text-left min-w-0">
+        <p className="text-xs text-gray-500 dark:text-gray-400">{titulo}</p>
+        <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
+          {valor}
+        </p>
+        <p className="text-xs font-bold text-emerald-500 truncate">{sub}</p>
+      </div>
+    </div>
   );
 }

@@ -1,27 +1,19 @@
 import { supabase } from "../lib/supabaseClient";
 
 export const viewServices = {
-  async getDashboardCards() {
-    const { data, error } = await supabase
-      .from("vw_dashboard_cards")
-      .select("*")
-      .single();
-
+  async getDashboardCards(idEmpresa) {
+    let query = supabase.from("vw_dashboard_cards").select("*");
+    if (idEmpresa) query = query.eq("id_empresa", idEmpresa);
+    const { data, error } = await query.limit(1).maybeSingle();
     if (error) throw error;
-    return data;
+    return data || {};
   },
 
   async getListagemIngredientes(filters = {}) {
     let query = supabase.from("vw_listagem_ingredientes").select("*");
-
-    if (filters.search) {
+    if (filters.search)
       query = query.ilike("nm_ingrediente", `%${filters.search}%`);
-    }
-
-    if (filters.status) {
-      query = query.eq("status_estoque", filters.status);
-    }
-
+    if (filters.status) query = query.eq("status_estoque", filters.status);
     const { data, error } = await query;
     if (error) throw error;
     return data;
@@ -32,19 +24,16 @@ export const viewServices = {
       .from("vw_movimentacoes_ultimos_6_meses")
       .select("*")
       .order("mes", { ascending: true });
-
     if (error) throw error;
     return data;
   },
 
   async getNotificacoes(filters = {}) {
     let query = supabase.from("vw_notificacoes").select("*");
-
-    if (filters.lida !== undefined) {
-      query = query.eq("ic_lida", filters.lida);
-    }
-
-    const { data, error } = await query.order("dt_envio", { ascending: false });
+    if (filters.lida !== undefined) query = query.eq("ic_lida", filters.lida);
+    const { data, error } = await query.order("id_notificacao", {
+      ascending: false,
+    });
     if (error) throw error;
     return data;
   },
@@ -53,19 +42,16 @@ export const viewServices = {
     const { data, error } = await supabase
       .from("vw_top_10_produtos_mais_vendidos")
       .select("*");
-
     if (error) throw error;
     return data;
   },
 
-  async getDadosFinanceiros() {
-    const { data, error } = await supabase
-      .from("vw_dashboard_financeiro")
-      .select("*")
-      .single();
-
+  async getDadosFinanceiros(idEmpresa) {
+    let query = supabase.from("vw_dashboard_financeiro").select("*");
+    if (idEmpresa) query = query.eq("id_empresa", idEmpresa);
+    const { data, error } = await query.limit(1).maybeSingle();
     if (error) throw error;
-    return data;
+    return data || {};
   },
 
   async getDadosGraficoFinanceiro() {
@@ -73,18 +59,15 @@ export const viewServices = {
       .from("vw_grafico_financeiro_mensal")
       .select("*")
       .order("mes", { ascending: true });
-
     if (error) throw error;
     return data;
   },
 
-  async getDadosRelatorios() {
-    const { data, error } = await supabase
-      .from("vw_relatorios_dashboard")
-      .select("*")
-      .single();
-
+  async getDadosRelatorios(idEmpresa) {
+    let query = supabase.from("vw_relatorios_dashboard").select("*");
+    if (idEmpresa) query = query.eq("id_empresa", idEmpresa);
+    const { data, error } = await query.limit(1).maybeSingle();
     if (error) throw error;
-    return data;
+    return data || {};
   },
 };

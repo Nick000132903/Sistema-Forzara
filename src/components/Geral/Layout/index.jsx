@@ -5,7 +5,7 @@ export default function Layout({ children }) {
 
   return (
     <div
-      className={`transition-all duration-300 bg-[#F8FAFC] dark:bg-[#0B071E] p-3 sm:p-4 md:p-6 ${
+      className={`transition-all duration-300 bg-bg-light dark:bg-surface-dark p-3 sm:p-4 md:p-6 min-h-screen ${
         collapsed ? "lg:ml-16" : "lg:ml-64"
       }`}
     >

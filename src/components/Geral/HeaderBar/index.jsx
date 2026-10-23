@@ -4,7 +4,7 @@ import { useAuth, useEmpresa, useSidebar, useTheme } from "../../../contexts";
 import NotificacoesBar from "../NotificacoesBar";
 import { viewServices } from "../../../services";
 
-export default function HeaderBar({ onSearch, searchTerm }) {
+export default function HeaderBar({ page, desc, onSearch, searchTerm }) {
   const [aberto, setAberto] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
   const [notificacoesNaoLidas, setNotificacoesNaoLidas] = useState(0);
@@ -72,18 +72,33 @@ export default function HeaderBar({ onSearch, searchTerm }) {
 
   return (
     <header
-      className={`fixed top-0 right-0 z-20 bg-white dark:bg-[#0B071E] border-b border-gray-200 dark:border-slate-800 px-4 sm:px-6 py-3 transition-all duration-300 left-0 ${
+      className={`fixed top-0 right-0 z-20 bg-white dark:bg-surface-dark border-b border-gray-200 dark:border-slate-800 px-4 sm:px-6 py-3 transition-all duration-300 left-0 ${
         collapsed ? "lg:left-16" : "lg:left-64"
       }`}
     >
       <div className="flex items-center justify-between gap-4">
+        {(page || desc) && (
+          <div className="hidden lg:flex flex-col min-w-0 max-w-xs">
+            {page && (
+              <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">
+                {page}
+              </h1>
+            )}
+            {desc && (
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                {desc}
+              </p>
+            )}
+          </div>
+        )}
+
         <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
           <input
             type="text"
             placeholder="Buscar ingredientes, fornecedores..."
             value={searchTerm || ""}
             onChange={(e) => onSearch?.(e.target.value)}
-            className="w-full bg-gray-100 dark:bg-[#1a1534] border border-transparent dark:border-slate-800 rounded-full py-2.5 pl-10 pr-4 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+            className="w-full bg-gray-100 dark:bg-surface-dark-hover border border-transparent dark:border-slate-800 rounded-full py-2.5 pl-10 pr-4 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
           />
           <img
             src="/icons/search-cinza.svg"
@@ -95,7 +110,8 @@ export default function HeaderBar({ onSearch, searchTerm }) {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={toggleTheme}
-            className="p-2.5 rounded-full cursor-pointer bg-gray-100 dark:bg-[#1a1534] hover:bg-gray-200 dark:hover:bg-[#241b42] transition-colors"
+            className="p-2.5 rounded-full cursor-pointer bg-gray-100 dark:bg-surface-dark-hover hover:bg-gray-200 dark:hover:bg-[#241b42] transition-colors"
+            aria-label="Alternar tema"
           >
             <img
               src={
@@ -111,7 +127,8 @@ export default function HeaderBar({ onSearch, searchTerm }) {
           <div className="relative">
             <button
               onClick={() => setAberto(!aberto)}
-              className="p-2.5 rounded-full cursor-pointer bg-gray-100 dark:bg-[#1a1534] hover:bg-gray-200 dark:hover:bg-[#241b42] transition-colors relative"
+              className="p-2.5 rounded-full cursor-pointer bg-gray-100 dark:bg-surface-dark-hover hover:bg-gray-200 dark:hover:bg-[#241b42] transition-colors relative"
+              aria-label="Notificações"
             >
               <img
                 src="/icons/bell-cinza.svg"
@@ -119,7 +136,7 @@ export default function HeaderBar({ onSearch, searchTerm }) {
                 className="w-4 h-4"
               />
               {notificacoesNaoLidas > 0 && (
-                <span className="absolute top-1.5 right-2 w-2 h-2 bg-[#8B5CF6] rounded-full" />
+                <span className="absolute top-1.5 right-2 w-2 h-2 bg-primary rounded-full" />
               )}
             </button>
             {aberto && (
@@ -158,7 +175,7 @@ export default function HeaderBar({ onSearch, searchTerm }) {
             </button>
 
             {menuAberto && (
-              <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-[#0B071E] border border-gray-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden z-50">
+              <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-surface-dark border border-gray-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden z-50">
                 <div className="p-4 border-b border-gray-100 dark:border-slate-800">
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-full bg-[#3B0FBF] flex items-center justify-center text-white font-semibold text-sm shrink-0">
@@ -174,7 +191,7 @@ export default function HeaderBar({ onSearch, searchTerm }) {
                     </div>
                   </div>
                   <div className="mt-3 flex items-center gap-2">
-                    <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-md bg-purple-50 dark:bg-[#1e1538] text-[#8B5CF6]">
+                    <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-md bg-purple-50 dark:bg-[#1e1538] text-primary">
                       {perfil}
                     </span>
                     <span className="text-[10px] text-gray-400 truncate">
@@ -189,7 +206,7 @@ export default function HeaderBar({ onSearch, searchTerm }) {
                       setMenuAberto(false);
                       navigate("/configuracoes");
                     }}
-                    className="w-full flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#1a1534] transition-colors"
+                    className="w-full flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
                   >
                     <img
                       src="/icons/user-cinza.svg"
@@ -204,7 +221,7 @@ export default function HeaderBar({ onSearch, searchTerm }) {
                       setMenuAberto(false);
                       navigate("/configuracoes");
                     }}
-                    className="w-full flex items-center cursor-pointer gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#1a1534] transition-colors"
+                    className="w-full flex items-center cursor-pointer gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
                   >
                     <img
                       src="/icons/settings-cinza.svg"

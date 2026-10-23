@@ -32,7 +32,7 @@ export default function GraficoTopProdutos({ produtos }) {
           {produtos.map((p, i) => (
             <tr
               key={p.id_produto || i}
-              className="border-b border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-[#1a1534] transition-colors"
+              className="border-b border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors"
             >
               <td className="text-center p-2.5 text-sm text-gray-600 dark:text-gray-300">
                 {i + 1}

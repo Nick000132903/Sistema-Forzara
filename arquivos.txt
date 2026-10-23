@@ -1,0 +1,446 @@
+src/pages/Relatorios/index.jsx
+
+import { useState } from "react";
+import {
+  SideBar,
+  HeaderBar,
+  FiltroRelatorio,
+  GraficoBarras,
+  GraficoPizza,
+  TabelaRelatorio,
+  FaturamentoMesCard,
+  ReposicoesMesCard,
+  TaxaSaidasMesCard,
+  TotalClientesMesCard,
+  PerdasMesCardRelatorio,
+  EntradasMesCardRelatorio,
+  Layout,
+} from "../../components";
+import {
+  faturamentoMensal,
+  cmvMensal,
+  topProdutos,
+} from "../../data/dataRelatorios";
+import {
+  filterByCategory,
+  getUniqueCategories,
+  getTopThree,
+  sortData,
+} from "../../utils";
+
+export default function Relatorios() {
+  const [dataSelecionada, setDataSelecionada] = useState("mar2026");
+  const [filtroCategoria, setFiltroCategoria] = useState("todas");
+  const [filtroOrdenacao, setFiltroOrdenacao] = useState("total_quantidade");
+
+  const categorias = getUniqueCategories(topProdutos);
+  const produtosFiltrados = sortData(
+    filterByCategory(topProdutos, filtroCategoria),
+    filtroOrdenacao,
+    "desc",
+  );
+  const dadosPizza = getTopThree(topProdutos, "total_valor");
+
+  return (
+    <>
+      <SideBar />
+      <Layout>
+        <HeaderBar
+          page="Relatórios"
+          desc="Relatórios detalhados do sistema em geral."
+        />
+
+        <FiltroRelatorio
+          dataSelecionada={dataSelecionada}
+          setDataSelecionada={setDataSelecionada}
+          filtroCategoria={filtroCategoria}
+          setFiltroCategoria={setFiltroCategoria}
+          filtroOrdenacao={filtroOrdenacao}
+          setFiltroOrdenacao={setFiltroOrdenacao}
+          categorias={categorias}
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-4 mt-6">
+          <FaturamentoMesCard valor="12000" variacao="18" />
+          <ReposicoesMesCard valor="433" variacao="12" />
+          <TaxaSaidasMesCard valor="7.2" variacao="2.1" />
+          <TotalClientesMesCard valor="213" variacao="15" />
+          <PerdasMesCardRelatorio valor="18" variacao="3" />
+          <EntradasMesCardRelatorio valor="173" variacao="7" />
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GraficoBarras
+            titulo="Faturamento Mensal"
+            dados={faturamentoMensal}
+            cor="#8B5CF6"
+          />
+          <GraficoBarras titulo="CMV Mensal" dados={cmvMensal} cor="#5B21B6" />
+        </div>
+
+        <div className="mt-6 mb-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <GraficoPizza titulo="Top 3 Produtos" dados={dadosPizza} />
+          <TabelaRelatorio produtos={produtosFiltrados} />
+        </div>
+      </Layout>
+    </>
+  );
+}
+
+
+src/components/Especificos/Relatorios/FiltroRelatorio/index.jsx
+
+export default function FiltroRelatorio({
+  dataSelecionada,
+  setDataSelecionada,
+  filtroCategoria,
+  setFiltroCategoria,
+  filtroOrdenacao,
+  setFiltroOrdenacao,
+  categorias,
+}) {
+  const selectClass =
+    "bg-white border border-gray-200 text-gray-700 text-sm rounded-lg py-2 px-3 h-10 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer transition-shadow hover:border-gray-300 shadow-sm";
+
+  return (
+    <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 mt-6 mb-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <select
+          value={dataSelecionada}
+          onChange={(e) => setDataSelecionada(e.target.value)}
+          className={selectClass}
+        >
+          <option value="mar2026">Março 2026</option>
+          <option value="fev2026">Fevereiro 2026</option>
+          <option value="jan2026">Janeiro 2026</option>
+          <option value="dez2025">Dezembro 2025</option>
+        </select>
+
+        <select
+          value={filtroCategoria}
+          onChange={(e) => setFiltroCategoria(e.target.value)}
+          className={selectClass}
+        >
+          <option value="todas">Todas categorias</option>
+          {categorias.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filtroOrdenacao}
+          onChange={(e) => setFiltroOrdenacao(e.target.value)}
+          className={selectClass}
+        >
+          <option value="total_quantidade">Mais Saídas</option>
+          <option value="total_valor">Maior Faturamento</option>
+          <option value="nm_produto">Nome (A-Z)</option>
+        </select>
+      </div>
+
+      <button className="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 transition-colors text-white flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md px-4 h-10 rounded-lg text-sm font-medium shrink-0">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7"
+            stroke="#FFF"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Exportar PDF
+      </button>
+    </div>
+  );
+}
+
+
+src/components/Especificos/Relatorios/TabelaRelatorio/index.jsx
+
+import { formatCurrency } from "../../../../utils";
+
+export default function TabelaRelatorio({ produtos }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:col-span-2 overflow-hidden">
+      <h2 className="font-semibold text-gray-800 mb-4 text-base">
+        Relatório de Saídas
+      </h2>
+
+      <div className="overflow-x-auto -mx-6 px-6">
+        <table className="w-full text-sm min-w-140">
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="text-left py-3 font-semibold text-gray-600 text-xs uppercase tracking-wide">
+                Produto
+              </th>
+              <th className="text-left py-3 font-semibold text-gray-600 text-xs uppercase tracking-wide">
+                Categoria
+              </th>
+              <th className="text-center py-3 font-semibold text-gray-600 text-xs uppercase tracking-wide">
+                Saídas
+              </th>
+              <th className="text-center py-3 font-semibold text-gray-600 text-xs uppercase tracking-wide">
+                Faturamento
+              </th>
+              <th className="text-center py-3 font-semibold text-gray-600 text-xs uppercase tracking-wide">
+                Pedidos
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {produtos.length > 0 ? (
+              produtos.map((item) => (
+                <tr
+                  key={item.id}
+                  className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50/70 transition-colors"
+                >
+                  <td className="py-3 text-gray-800 font-medium">
+                    {item.nm_produto || "-"}
+                  </td>
+                  <td className="py-3 text-gray-500 text-xs">
+                    {item.nm_categoria || "-"}
+                  </td>
+                  <td className="py-3 text-center text-gray-800 font-medium">
+                    {(item.total_quantidade || 0).toFixed(0)}
+                  </td>
+                  <td className="py-3 text-center text-emerald-600 font-semibold">
+                    {formatCurrency(item.total_valor)}
+                  </td>
+                  <td className="py-3 text-center text-gray-800">
+                    {item.total_pedidos || 0}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="5"
+                  className="py-8 text-center text-gray-400 text-sm"
+                >
+                  Nenhum resultado encontrado
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+
+src/components/RelatoriosCards/index.jsx        (barrel)
+
+import BaseCard from "../../BaseCard";
+
+export default function EntradasMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Entradas"
+      valor={valor}
+      variacao={variacao}
+      cor="bg-teal-500"
+      corBg="bg-teal-50"
+      icone="/icons/log-in-teal.svg"
+    />
+  );
+}
+
+import BaseCard from "../../BaseCard";
+
+export default function FaturamentoMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Faturamento"
+      valor={valor}
+      variacao={variacao}
+      cor="border-emerald-500"
+      corBg="bg-emerald-50"
+      unidade="currency"
+      icone="/icons/dollar-verde.svg"
+    />
+  );
+}
+
+import BaseCard from "../../BaseCard";
+
+export default function PerdasMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Perdas"
+      valor={valor}
+      variacao={variacao}
+      cor="border-red-500"
+      corBg="bg-red-50"
+      icone="/icons/alert-triangle-vermelho.svg"
+    />
+  );
+}
+
+
+import BaseCard from "../../BaseCard";
+
+export default function ReposicoesMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Reposições/mês"
+      valor={valor}
+      variacao={variacao}
+      cor="border-blue-500"
+      corBg="bg-blue-50"
+      icone="/icons/refresh-cw-azul.svg"
+    />
+  );
+}
+
+
+import BaseCard from "../../BaseCard";
+
+export default function TaxaSaidasMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Taxa de Saídas"
+      valor={valor}
+      variacao={variacao}
+      cor="border-purple-500"
+      corBg="bg-purple-50"
+      icone="/icons/arrow-right-left-roxo.svg"
+    />
+  );
+}
+
+
+import BaseCard from "../../BaseCard";
+
+export default function TotalClientesMesCard({ valor, variacao }) {
+  return (
+    <BaseCard
+      titulo="Clientes"
+      valor={valor}
+      variacao={variacao}
+      cor="bg-indigo-500"
+      corBg="bg-indigo-50"
+      icone="/icons/users-indigo.svg"
+    />
+  );
+}
+
+
+GraficoBarras
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+import { formatCurrency } from "../../../../utils";
+
+export default function GraficoBarras({ titulo, dados, cor }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <h2 className="font-semibold text-gray-800 mb-4 text-base">{titulo}</h2>
+
+      <div className="w-full h-75">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={dados}
+            margin={{ top: 8, right: 8, left: -8, bottom: 0 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="#E5E7EB"
+            />
+            <XAxis
+              dataKey="mes"
+              tick={{ fontSize: 12, fill: "#6B7280" }}
+              axisLine={{ stroke: "#E5E7EB" }}
+              tickLine={false}
+            />
+            <YAxis
+              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+              tick={{ fontSize: 12, fill: "#6B7280" }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <Tooltip
+              formatter={(value) => formatCurrency(value)}
+              contentStyle={{
+                borderRadius: "12px",
+                border: "1px solid #E5E7EB",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                fontSize: "12px",
+              }}
+              cursor={{ fill: "rgba(139, 92, 246, 0.06)" }}
+            />
+            <Bar
+              dataKey="valor"
+              fill={cor}
+              radius={[8, 8, 0, 0]}
+              maxBarSize={48}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
+
+
+GraficoPizza
+
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+
+import { formatCurrency } from "../../../../utils";
+
+export default function GraficoPizza({ titulo, dados }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit">
+      <h2 className="font-semibold text-gray-800 mb-4 text-base">{titulo}</h2>
+
+      <div className="w-full h-62.5">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={dados}
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={85}
+              paddingAngle={3}
+              dataKey="value"
+              stroke="none"
+            >
+              {dados.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value) => formatCurrency(value)}
+              contentStyle={{
+                borderRadius: "12px",
+                border: "1px solid #E5E7EB",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                fontSize: "12px",
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}

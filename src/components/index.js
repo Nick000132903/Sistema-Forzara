@@ -35,6 +35,7 @@ export { default as TaxaSaidasMesCard } from "./Cards/RelatoriosCards/TaxaSaidas
 export { default as TotalClientesMesCard } from "./Cards/RelatoriosCards/TotalClientesMesCard";
 
 // OUTROS CARDS
+export { default as ModalNovaMovimentacao } from "./Especificos/Movimentacoes/ModalNovaMovimentacao";
 export { default as CategoriaMaisValorCard } from "./Cards/Outros/CategoriaMaisValorCard";
 export { default as CMVMesCard } from "./Cards/Outros/CMVMesCard";
 export { default as ComprasMesCard } from "./Cards/Outros/ComprasMesCard";
@@ -74,3 +75,12 @@ export { default as ModalFornecedores } from "./Especificos/Fornecedores/ModalFo
 
 // ESPECÍFICOS - ESTOQUE
 export { default as TabelaIngredientesEstoque } from "./Especificos/Estoque/TabelaIngredientes";
+export { default as ModalNovoIngrediente } from "./Especificos/Estoque/ModalNovoIngrediente";
+export { default as ModalNovoProduto } from "./Especificos/Estoque/ModalNovoProduto";
+export { default as DetalheIngrediente } from "./Especificos/Estoque/DetalheIngrediente";
+
+// ESPECÍFICOS - AGENDA
+export { default as AgendaCalendarioMes } from "./Especificos/Agenda/CalendarioMes";
+export { default as AgendaListaEventos } from "./Especificos/Agenda/ListaEventos";
+export { default as AgendaModalNovoEvento } from "./Especificos/Agenda/ModalNovoEvento";
+export { default as AgendaDetalheEvento } from "./Especificos/Agenda/DetalheEvento";

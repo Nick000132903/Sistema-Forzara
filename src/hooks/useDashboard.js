@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useCallback } from "react";
 import { viewServices, ingredienteService } from "../services";
 
 export function useDashboard() {
@@ -11,32 +10,31 @@ export function useDashboard() {
   const [topProdutos, setTopProdutos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const carregarDados = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const [cards, estoque, movimentos, top] = await Promise.all([
-          viewServices.getDashboardCards(),
-          ingredienteService.getAll({ search: searchTerm }),
-          viewServices.getMovimentacoesUltimos6Meses(),
-          viewServices.getTop10ProdutosMaisVendidos(),
-        ]);
-
-        setDashboardCards(cards || {});
-        setIngredientes(estoque || []);
-        setMovimentacoes(movimentos || []);
-        setTopProdutos(top || []);
-      } catch (err) {
-        console.error("Erro ao carregar dashboard:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    carregarDados();
+  const carregar = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [cards, estoque, movimentos, top] = await Promise.all([
+        viewServices.getDashboardCards(),
+        ingredienteService.getAll({ search: searchTerm }),
+        viewServices.getMovimentacoesUltimos6Meses(),
+        viewServices.getTop10ProdutosMaisVendidos(),
+      ]);
+      setDashboardCards(cards || {});
+      setIngredientes(estoque || []);
+      setMovimentacoes(movimentos || []);
+      setTopProdutos(top || []);
+    } catch (err) {
+      console.error("Erro ao carregar dashboard:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
   }, [searchTerm]);
+
+  useEffect(() => {
+    carregar();
+  }, [carregar]);
 
   return {
     dashboardCards,
@@ -47,5 +45,6 @@ export function useDashboard() {
     error,
     searchTerm,
     setSearchTerm,
+    recarregar: carregar,
   };
 }

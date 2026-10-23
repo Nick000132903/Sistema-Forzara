@@ -1,9 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const SidebarContext = createContext();
+const STORAGE_KEY = "sidebar_collapsed";
 
 export function SidebarProvider({ children }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, String(collapsed));
+  }, [collapsed]);
 
   return (
     <SidebarContext.Provider value={{ collapsed, setCollapsed }}>
